@@ -10,7 +10,7 @@ services:
       interval: 5s
       retries: 10
     ports:
-      - 8500:8500
+      - 8054:8500
     expose:
       - 53
       - 8300
@@ -27,10 +27,10 @@ services:
       consul:
         condition: service_healthy
     ports:
-      - 8000:8000
-      - 8443:8443
-      - 8001:8001
-      - 8444:8444
+      - 8050:8001
+      - 8051:8000
+      - 8052:8443
+      - 8053:8444
     expose:
       - 8000
       - 8443
@@ -94,7 +94,7 @@ services:
       kong:
         condition: service_healthy
     ports:
-      - 1337:1337
+      - 8055:1337
     links:
       - mongo:db
       - kong:kong
@@ -103,6 +103,7 @@ services:
       - DB_HOST=mongo
       - DB_DATABASE=konga
       - NODE_ENV=development
+    restart: on-failure
 
   mongo:
     image: mongo
