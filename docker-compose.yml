@@ -86,3 +86,29 @@ services:
       interval: 5s
       retries: 10
     restart: on-failure
+
+  konga:
+    image: pantsel/konga:next #(or latest)
+    container_name: konga
+    depends_on:
+      kong:
+        condition: service_healthy
+    ports:
+      - 1337:1337
+    links:
+      - mongo:db
+      - kong:kong
+    environment:
+      - DB_ADAPTER=mongo
+      - DB_HOST=mongo
+      - DB_DATABASE=konga
+      - NODE_ENV=development
+
+  mongo:
+    image: mongo
+    volumes:
+      - /var/lib/mongodb:/data/db
+    ports:
+      - 27017:27017
+    dns:
+      - 127.0.0.1
