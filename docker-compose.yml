@@ -112,7 +112,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - $HOME/persistent/mongodb:/data/db
+      - /var/lib/iafoosball/mongodb:/data/db
     ports:
       - 27017:27017
     dns:
@@ -120,4 +120,5 @@ services:
 
 networks: 
   default:
-    driver: bridge
+    external:
+      name: kong_iafoosball
