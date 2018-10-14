@@ -1,6 +1,12 @@
 # Kong in Docker Compose
 
 This is the hacked Docker Compose template for [Kong][kong-site-url].
+Run it with:
+
+```bash
+docker network create -d bridge kong_iafoosball
+docker-compose up -d
+```
 
 # What is Kong?
 
