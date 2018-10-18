@@ -20,7 +20,9 @@ services:
       - 8500
     dns:
       - 127.0.0.1
-
+    networks: 
+    - default
+  
   nginx-lb:
     build: nginx/
     depends_on:
@@ -42,7 +44,7 @@ services:
         /bin/containerpilot
         -config file:///etc/containerpilot/containerpilot.json
         nginx -g "daemon off;"
-
+  
   kong-database:
     image: postgres:10
     environment:
@@ -53,7 +55,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+  
   kong-migration:
     image: kong
     depends_on:
@@ -63,14 +65,15 @@ services:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=kong-database
     command: kong migrations up
-
+  
   kong:
     build: kong/
+    container_name: kong
     depends_on:
       kong-database:
         condition: service_healthy
       kong-migration:
-        condition: service_started
+        condition: service_started  
     environment:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=kong-database
@@ -91,10 +94,11 @@ services:
     image: pantsel/konga:next #(or latest)
     container_name: konga
     depends_on:
-      kong:
-        condition: service_healthy
+      - kong
     ports:
       - 8055:1337
+    environment:
+    - KONGA_SEED_USER_DATA_SOURCE_FILE=/run/secrets/konga_user_seed
     links:
       - mongo:db
       - kong:kong
@@ -104,12 +108,17 @@ services:
       - DB_DATABASE=konga
       - NODE_ENV=development
     restart: on-failure
-
+  
   mongo:
     image: mongo
     volumes:
-      - /var/lib/mongodb:/data/db
+      - /var/lib/iafoosball/mongodb:/data/db
     ports:
       - 27017:27017
     dns:
       - 127.0.0.1
+
+networks: 
+  default:
+    external:
+      name: kong_iafoosball
