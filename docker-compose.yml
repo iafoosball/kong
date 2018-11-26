@@ -97,8 +97,6 @@ services:
       - kong
     ports:
       - 8055:1337
-    environment:
-    - KONGA_SEED_USER_DATA_SOURCE_FILE=/run/secrets/konga_user_seed
     links:
       - mongo:db
       - kong:kong
@@ -112,7 +110,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - /var/lib/iafoosball/mongodb:/data/db
+      - $HOME/iafoosball/mongodb/kong-data:/data/db
     ports:
       - 27017:27017
     dns:
