@@ -110,7 +110,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - $HOME/iafoosball/mongodb/kong-data:/data/db
+      - $HOME/iafoosball/stag/mongodb/kong-data:/data/db
     ports:
       - 27017:27017
     dns:
