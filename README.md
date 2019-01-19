@@ -1,7 +1,7 @@
 # Kong in Docker Compose
 IAfoosball ports:  
 8050/8053 - HTTP/HTTPS our APIs ports  
-8051/8054 - HTTP/HTTPS Admin Api ports  g
+8051/8054 - HTTP/HTTPS Admin Api ports  
 
 This is the official Docker Compose template for [Kong][kong-site-url].
 
