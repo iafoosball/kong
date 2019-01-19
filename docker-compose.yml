@@ -44,7 +44,11 @@ services:
         /bin/containerpilot
         -config file:///etc/containerpilot/containerpilot.json
         nginx -g "daemon off;"
-  
+    volumes:
+      - /var/lib/iafoosball/cert/fullchain.pem:/var/lib/cert/fullchain.pem
+      - /var/lib/iafoosball/cert/privkey.pem:/var/lib/cert/privkey.pem
+
+
   kong-database:
     image: postgres:10
     environment:
