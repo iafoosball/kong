@@ -3,7 +3,13 @@ pipeline {
     stages {
         stage('Prepare stag env') {
             steps {
-                sh "docker rm -f konga konga-mongo kong kong-postgres"
+                script {
+                     try {
+                         sh "docker rm -f konga konga-mongo kong kong-postgres"
+                     } catch (err) {
+                         echo err
+                     }
+                 }
             }
         }
         stage('Build') {
@@ -18,7 +24,6 @@ pipeline {
     }
     post {
        always {
-            sh "docker-compose down --rmi='all'"
             sh "docker system prune -f"
        }
     }
