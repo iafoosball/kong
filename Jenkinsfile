@@ -11,10 +11,11 @@ pipeline {
                 sh "docker-compose build"
             }
         }
-        stage('Deploy to stag')
+        stage('Deploy to stag') {
             steps {
                 sh "docker-compose -p kong-stag up -d --force-recreate"
             }
+        }
     }
     post {
        always {
