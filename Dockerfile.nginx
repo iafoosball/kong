@@ -1,0 +1,4 @@
+FROM jwilder/nginx-proxy
+
+COPY /var/lib/iafoosball/cert /var/lib/cert
+COPY default.conf /etc/nginx/conf.d/default.conf
