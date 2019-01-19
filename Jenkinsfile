@@ -1,24 +1,32 @@
 pipeline {
     agent any
-    environment {
-        COMPOSE_PROJECT_NAME = "${env.JOB_NAME}-${env.BUILD_ID}"
-        COMPOSE_FILE = "docker-compose.yml"
-    }
     stages {
-        stage('build') {
+        stage('Prepare stag env') {
             steps {
-                sh "docker-compose build --pull"
+                sh "docker stop konga"
+                sh "docker stop konga-mongo"
+                sh "docker stop kong"
+                sh "docker stop kong-postgres"
+                sh "docker rm konga"
+                sh "docker rm konga-mongo"
+                sh "docker rm kong"
+                sh "docker rm kong-postgres"
             }
         }
-        stage('deploy') {
+        stage('Build') {
             steps {
-                sh "docker-compose up -d"
+                sh "docker-compose build"
             }
         }
+        stage('Deploy to stag')
+            steps {
+                sh "docker-compose -p kong-stag up -d --force-recreate"
+            }
     }
     post {
        always {
             sh "docker system prune -f"
+            sh "docker-compose down --rmi='all'"
        }
     }
 }
