@@ -75,7 +75,7 @@ services:
     container_name: konga-mongo
     image: mongo
     volumes:
-    - /var/lib/iafoosball/stag/mongodb/kong-data:/data/db
+    - /var/lib/iafoosball/stag/mongodb/kong-data:/var/lib/mongo
     ports:
     - "27017:27017/tcp"
     restart: on-failure
