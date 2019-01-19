@@ -3,14 +3,7 @@ pipeline {
     stages {
         stage('Prepare stag env') {
             steps {
-                sh "docker stop konga"
-                sh "docker stop konga-mongo"
-                sh "docker stop kong"
-                sh "docker stop kong-postgres"
-                sh "docker rm konga"
-                sh "docker rm konga-mongo"
-                sh "docker rm kong"
-                sh "docker rm kong-postgres"
+                sh "docker rm -f konga konga-mongo kong kong-postgres"
             }
         }
         stage('Build') {
