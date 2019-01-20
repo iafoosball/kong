@@ -6,6 +6,7 @@ pipeline {
                 catchError {
                     sh "docker-compose down"
                     sh "docker-compose -p kong-stag up -d --build --force-recreate"
+                    sh "./registerCert.sh"
                 }
             }
         }
